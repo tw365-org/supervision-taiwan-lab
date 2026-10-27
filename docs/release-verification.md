@@ -69,7 +69,7 @@ HTML, JS and CSS loaded successfully with correct content types. No camera, micr
 
 The source repository is public. `.github/workflows/site.yml` builds on push and pull requests. Deployment from CI is opt-in through manual workflow dispatch on `main` and requires separately configured `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets. Local Wrangler OAuth is not installed in CI. No CI deployment token was created for this release.
 
-GitHub workflow outcome is checked after the source push and reported in the release hand-off; this document records the deployed site acceptance independently of that subsequent source-publication check.
+Initial application source commit: `018571c5e7d7e1f2f4974c86cf740d2e7c6ae20f`. Actual GitHub Actions run [40478400896](https://github.com/tw365-org/supervision-taiwan-lab/actions/runs/40478400896) **passed**: `npm ci`, `npm run build`, and the `site-dist` artifact upload succeeded; the deployment step was correctly skipped on push. Build job duration was 33 seconds. Nonblocking runner annotations reported the Node 20 runtime deprecation of the v4 GitHub actions (automatically run on Node 24) and the ubuntu-latest image migration. These are CI runner/action-runtime notices, not browser errors or a failed application build.
 
 ## Boundaries / 驗收邊界
 
