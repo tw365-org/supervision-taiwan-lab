@@ -1964,3 +1964,127 @@ html[lang="en"] .inspector {
     transition: none !important;
   }
 }
+
+/* The full lab chooser is a native keyboard/mobile control, not twenty cramped tabs. */
+.all-scenes-control {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--line);
+  background: #f8fafa;
+}
+.all-scenes-control label {
+  display: block;
+  margin-bottom: 9px;
+  font-size: 13px;
+  font-weight: 650;
+}
+.all-scenes-control select {
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #a9c3c5;
+  border-radius: 5px;
+  background: white;
+  color: var(--ink);
+  font: inherit;
+}
+.frame-control {
+  padding: 20px 24px;
+  border-top: 1px solid var(--line);
+}
+.frame-control label {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  font-size: 12px;
+}
+.frame-control input {
+  width: 100%;
+  accent-color: var(--teal);
+  margin-top: 12px;
+}
+.viewport-bottom {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.playback {
+  flex-wrap: wrap;
+}
+.secondary-reading {
+  flex-direction: column;
+  gap: 8px;
+}
+.secondary-reading strong {
+  font-size: 20px;
+}
+.secondary-reading small {
+  font-size: 11px;
+  font-weight: 400;
+}
+.inspector-title {
+  align-items: flex-start;
+}
+.inspector h3 {
+  line-height: 1.5;
+}
+.inspector select {
+  min-width: 0;
+}
+.reading strong small {
+  display: block;
+  font-size: 11px;
+  margin-top: 7px;
+}
+.safety-limit {
+  border-left: 2px solid #c1aa78;
+  padding-left: 10px;
+}
+.legend {
+  flex-wrap: wrap;
+  gap: 12px 22px;
+}
+.crossing-history {
+  padding: 0 24px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 11px;
+  color: #365964;
+}
+.crossing-history span {
+  padding: 5px 8px;
+  border: 1px solid #b7cccf;
+  border-radius: 3px;
+  background: #f8fafa;
+}
+@media (max-width: 620px) {
+  .site-header .brand {
+    min-width: 0;
+    max-width: calc(100% - 65px);
+    font-size: 12px;
+  }
+  .site-header .brand > span {
+    min-width: 0;
+    white-space: normal;
+    line-height: 1.35;
+  }
+  .site-header .brand small {
+    font-size: 8px;
+    letter-spacing: 0;
+  }
+  .header-actions {
+    flex-shrink: 0;
+  }
+  .all-scenes-control,
+  .frame-control {
+    padding: 16px;
+  }
+  .all-scenes-control select {
+    font-size: 12px;
+  }
+  .playback button {
+    min-height: 40px;
+  }
+  .legend {
+    align-items: flex-start;
+  }
+}

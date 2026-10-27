@@ -45,26 +45,11 @@ export interface Copy {
     pause: string;
     reset: string;
     scenario: string;
-    scenarios: string[];
-    threshold: string;
-    thresholdUnit: string;
-    zones: string;
     normal: string;
     alert: string;
     disabled: string;
-    current: Record<Demo, string>;
-    secondary: Record<Demo, string>;
-    status: Record<Demo, string>;
-    note: Record<Demo, string>;
-    legend: string[];
-    scene: Record<Demo, string[]>;
     controls: string;
     details: string;
-    count: string;
-    available: string;
-    coPresence: string;
-    event: string;
-    noEvent: string;
   };
   catalog: {
     heading: string;

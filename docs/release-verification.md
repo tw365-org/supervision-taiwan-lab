@@ -2,59 +2,82 @@
 
 ## Release identity
 
-- Date: 2026-10-27 (production browser responses observed around 09:04–09:09 UTC).
+- Date: 2026-10-27.
+- Brand: **AI模擬視覺實驗室 / AI Simulation Vision Lab**.
 - Public site: https://supervision-taiwan-lab.tw365ai.workers.dev
-- Public source: https://github.com/tw365-org/supervision-taiwan-lab
+- Public source: https://github.com/tw365-org/supervision-taiwan-lab (public, `main`).
 - Cloudflare Worker: `supervision-taiwan-lab`, Workers Static Assets, `dist/`, SPA fallback, no custom API/backend.
-- Wrangler: `4.153.0`.
-- Deployed version: `64cb08a8-2d37-4289-8907-f7352eb0c79c`.
-- Production assets: `index-CfriC2Rs.js`, `index-xkH8Om2o.css`, `index.html`, `favicon.svg`.
+- Wrangler: `4.153.0`; deployed version: **`4b3877cb-e938-4aab-a996-592586dac653`**.
+- Production assets: `index-mjTu65IZ.js`, `index-DgOp8AJX.css`, `index.html`, preserved `favicon.svg`.
 
-Frontend explicitly declared its edits complete before deployment. Its final `npm run build`, `npm run typecheck` and `npm audit --json` exited 0; local evidence is separately documented in [app-design.md](app-design.md). Release did not claim a second build: it deployed those completed build artifacts.
+This release replaces the previous three-scene-only interactive lab with **all 20 use cases in section 01**. The three recommended tabs remain shortcuts; a labeled native selector exposes every application. It also applies the requested new original-site brand, without renaming the repository/domain or upstream Supervision project.
 
-## Exercised deployment commands
+Frontend declared READY after its final `npm run build`, `npm run typecheck` and `npm audit --json` passed (audit: zero vulnerabilities). Its local verification is recorded in [app-design.md](app-design.md). Release reused those final artifacts rather than rebuilding concurrently. The production checks below were performed independently after deployment, not inferred from frontend reports.
+
+## Exercised deployment
 
 ```sh
+npx --yes wrangler@4.153.0 whoami
 npx --yes wrangler@4.153.0 deploy --dry-run
 npx --yes wrangler@4.153.0 deploy
 ```
 
-Both exited 0. Dry-run read six asset-directory entries and found no bindings. Production deployment uploaded four static assets and returned the live URL and version above. Local cached OAuth was used; no credentials were committed or copied to GitHub Actions.
+All exited 0. Cached local OAuth authenticated successfully. Dry-run read six asset-directory entries and found no bindings. Deployment uploaded three changed assets; the favicon was already present. Wrangler returned the production URL and version above. No OAuth file, credential or token was copied into source or GitHub Actions.
 
-## Real production browser acceptance
+## Independent production browser matrix
 
-Exercised in real Chromium `156.0.8078.48` on Windows, against the public HTTPS URL, not a local preview. Desktop viewport: 1440 × 1000 CSS pixels. Mobile viewport: 390 × 844 CSS pixels. Browser screenshots were also captured and visually inspected for desktop/mobile layout.
+Real Chromium **156.0.8078.48** on Windows, against public HTTPS. Desktop **1440 × 1000**, mobile **390 × 844** CSS pixels. Screenshots of mobile Chinese fruit grading, mobile English branding and desktop English helmet inspection were captured and visually inspected.
 
-| Check | Actual observation |
+- **240 state checks:** 20 selectable applications × three scene-specific states × two locales × two viewports. Recorded primary/secondary readings and checked document width in each combination. No horizontal page overflow.
+- **80 control checks:** all 20 × two locales × two viewports. Keyboard Home/End reached each rule control's actual min/max. Turning analysis off showed `—` as the primary numeric reading for every case; it was re-enabled before observing scene readings.
+- **40 detail-navigation checks:** all 20 × two locales. Clicking the introduction link opened the matching `case-N` and moved focus to its summary (waited for focus, not just the click).
+- Accessible native selector, labeled scenario/rule/frame controls, SVG image labels, tabs and status were present in the real browser accessibility observation. This is not an accessibility certification.
+- No stale `台灣視覺實驗室` or `Taiwan Vision Lab` in rendered body/title across the 80 case/locale/viewport observations. Exact titles: `AI模擬視覺實驗室｜Supervision 應用概念` and `AI Simulation Vision Lab | Supervision concepts`.
+- English persisted across direct `/concepts#lab` navigation and reload; 20 options remained. Chinese persisted after switching back and reloading (`html.lang` and `vision-lab-locale` both `zh-TW`). `/concepts` is a deliberate SPA fallback probe, not another authored page.
+- Playback advanced to step 2 and paused. Reset returned step 0; manual advance returned step 1. Keyboard frame End reached step 11 for temporal checks.
+- Browser console entries and uncaught page errors were empty after the exercised interactions and reloads.
+
+An initial long automation run exceeded the tab runner's default 30-second execution deadline; it was rerun with an explicit longer deadline. An early toggle probe began with analysis already disabled; the final matrix explicitly enabled analysis before recording each scene, then verified the disabled em dash. These were harness-state corrections, not hidden application failures.
+
+## All 20 are meaningful domain demonstrations
+
+Observed in both languages and viewports; the examples below quote English desktop readings. They are synthetic observations, not model results. Rule controls can select a target, direction or event type as well as a numeric threshold. Equal readings in some states do not imply identical semantics: temporal cases must be advanced, while static inspection samples intentionally do not invent changing counts on every scrub.
+
+| # / application | Domain-specific scene, control and observed distinction |
 | --- | --- |
-| Initial locale | Fresh production origin opened with `html.lang = zh-TW`; `vision-lab-locale = zh-TW`. |
-| English persistence | Clicked language button, reloaded; `html.lang = en`, stored value `en`, title `Taiwan Vision Lab \| Supervision concepts`. |
-| Traditional Chinese persistence | Switched back and reloaded; `html.lang = zh-TW`, stored value `zh-TW`. |
-| Queue scene | Busy state: reading 6 people; advisory reports queue threshold met. Keyboard End on threshold changes value to 8; status becomes no alert. |
-| Parking scene | Busy state: 0 visible free bays; advisory reports no visible bays available. |
-| Forklift scene | Busy state: 2 co-present objects with advisory; ordinary state: 0 in shared zone and no alert. Disabling rules changes reading to an em dash and status to disabled, not a false safety guarantee. |
-| Keyboard navigation | Focused queue tab and pressed End; selected tab and focused element both become `tab-forklift`. |
-| Playback | Reset gave step 00, clicked play, observed advance to step 02, clicked pause; play button `aria-pressed = false`. |
-| Mobile overflow | All three scenes in both languages: `window.innerWidth = 390`, `document.documentElement.scrollWidth = 390`. No horizontal page overflow in those six cases. |
-| Desktop overflow | Width and document scroll width both 1440. |
-| Direct navigation / refresh | Loaded `/concepts#lab` directly and reloaded: document HTTP 200, app rendered with one scene panel and 20 application details; English preference survived. `/concepts` is a deliberate SPA fallback test, not a separately authored content page. |
-| Runtime diagnostics | Production browser console entries `[]`; uncaught page errors `[]` after locale/scene/navigation/playback exercises. |
+| 01 Scooter parking | Twelve bays, free/occupied/occluded states; low-availability threshold. Initial 4 confirmed free; full state 0; occluded state 2 unresolved, not falsely free. At step 11, threshold 0 vs 6 changed no-alert to advisory with 1 free bay. |
+| 02 Intersection turns | Entry and left/straight/right exits, tracked movement paths; selected movement control, completed-event count and tracked segments, not current occupancy. Three states illustrate left, straight and right/return paths. |
+| 03 Loading overstay | Private loading bay and dwell timeline; seconds threshold. Continuous state reached 60 seconds at step 11; exit/re-entry state recorded 2 distinct dwell episodes. Exit resets continuous dwell. |
+| 04 Bus waiting areas | Two platform zones and crossing line; selected-zone control. At peak step 11, selecting zone 1 vs 2 changed occupants 5 → 3; crossing events are separately labeled, not waiting time. |
+| 05 Night-market routing | Two aisles and accumulated position samples; diversion threshold. Initial peak occupancy 6 versus ordinary 2; samples are person-frames, not unique visitors or calibrated density. Step-11 threshold endpoints changed advisory state. |
+| 06 Temple/event gates | Two gates with directional histories; selected gate control. Cross/return at step 11 produced 1 inbound and 1 outbound event, not attendance. |
+| 07 Tea/breakfast queue | Counter, queue and excluded pickup area; count threshold. Ordinary/peak/pickup states showed 3/6/2 queue occupants; front-person dwell is explicitly not service time. Step-11 threshold 2 vs 8 changed advisory to no alert. |
+| 08 Shelf gaps | Fixed shelf facings, explicit empty and unknown areas; restock threshold. Ordinary 0 empty; gap state 2; occlusion state 1 visible empty plus 2 unresolved, not POS stock. Threshold endpoints changed advisory state. |
+| 09 Bento omissions | Four fixed-menu compartments; all/selected compartment control. Full/missing/occluded states showed 0/1/2 confirmed omissions; visible dishes 4/3/1. At step 11, all-compartments vs compartment 4 changed confirmed omissions 1 → 0. |
+| 10 Recycling | Paper/container bins, overflow, mis-sort and closed-lid unknown; review-event selector. Mis-sort/closed state recorded 1 matching site and 1 unknown interior. No inferred hidden fill rate. |
+| 11 Helmet/zone review | Heads, worn/held helmets and restricted zone; review-event selector. Correctly worn state paired 2 helmets; held helmet state paired only 1 and raised a review event. Not a mere helmet-object count or automated compliance decision. |
+| 12 Forklift crossing | Separate person/vehicle routes and shared zone; co-presence persistence control. Separated state 0 objects in zone; shared state 2 with continuous co-presence. Not collision prediction or a safety interlock. |
+| 13 Factory defects | Fixed workpiece, scratch/chip/glare and slice windows; minimum schematic defect extent. Normal 0; scratch 18 schematic pixels; chip 24. At step 11, rule 2 vs 30 changed reviewable defects 1 → 0. |
+| 14 Pallet movements | Warehouse/loading-door line and pallet path; direction selector. Outbound state at step 11 changed selected count 0 → 1 when direction changed. The pause-before-line/return state remained 0 in both directions. No stock or SKU inference. |
+| 15 Care controlled exit | Corridor, approach zone and controlled door; permitted-period control. Approach state at step 11 showed 1 event outside permitted hours, changing to 0 when passage permitted. Dwell is separately labeled; no identity/health inference. |
+| 16 Swimming lanes | Three lanes, visible swimmers and illustrated submerged/glare exclusions; lane selector. Busy step 11 changed visible count 3 → 5 between lanes; visibility edge state separately reported 1 invisible swimmer, excluded from visible count. Not drowning detection. |
+| 17 Sticky traps | Target/non-target insects, dirt/overlap and slice windows; minimum body size. Dense sample at step 11 changed accepted targets 12 → 0 with size control endpoints. Excluded candidates separately counted; no pesticide prescription. |
+| 18 Fruit grading | Four fruit with explicit visible blemish percentages; tolerance control. Normal largest 2%; blemished 22%; edge sample 28%. At step 11, tolerance 0 vs 30 changed review fruit 4 → 0; unseen back/internal quality not inferred. |
+| 19 Feed residue | Fixed observation window, pellets and visibility mask; review threshold. Sparse/accumulating start 6/4 pellets; accumulating reached 15 at step 11. Turbid/glare state returned `—`, not an invented underwater estimate. |
+| 20 River/harbor waste | Two water zones, debris area, leaves/foam exclusions; cleanup-zone selector. Accumulation step 11 changed selected visible waste area 1386 → 2034 schematic units; 3 non-waste candidates excluded. Not waste weight or water quality. |
 
-## Favicon: declared, loadable, and actually selected by Chrome
+## Preserved favicon: loadable and actually selected
 
-This check did not rely on `Page.getAppManifest` or only inspect HTML.
+1. Live HTML explicitly declares `rel="icon"`, `type="image/svg+xml"`, `href="/favicon.svg"`.
+2. Browser fetch returned **200**, `Content-Type: image/svg+xml`; browser `Image.decode()` succeeded with **150 × 150** natural dimensions.
+3. Opened Chrome's own `chrome://favicon2/?size=32&scaleFactor=1x&pageUrl=https%3A%2F%2Fsupervision-taiwan-lab.tw365ai.workers.dev%2F` service. Its selected image decoded at **32 × 32**.
+4. Canvas inspection found the intended preserved SVG brand colors: **801** opaque pixels at RGB 20,47,61 (`#142f3d`), **96** at 168,236,226 (`#a8ece2`), **20** at 241,187,99 (`#f1bb63`). This proves actual browser adoption rather than only an HTML declaration or generic fallback.
 
-1. The live document declares `<link rel="icon" type="image/svg+xml" href="/favicon.svg">`, resolving to https://supervision-taiwan-lab.tw365ai.workers.dev/favicon.svg.
-2. On first page load, **before the explicit fetch/image probes**, the browser autonomously requested this URL as resource type `other`, returning HTTP **200** with `Content-Type: image/svg+xml`. This is the browser's favicon request, distinct from subsequent scripted `fetch` and `Image` requests (which revalidated with 304).
-3. Browser fetch of the URL returned 200 and an SVG document; a browser `Image` loaded successfully with nonzero natural dimensions (150 × 150 for this viewBox-only SVG).
-4. Opened Chrome's own favicon cache service at `chrome://favicon2/?size=32&scaleFactor=1x&pageUrl=https%3A%2F%2Fsupervision-taiwan-lab.tw365ai.workers.dev%2F`. It returned a complete **32 × 32** image for this production page.
-5. Canvas inspection of that browser-selected cached image found the intended site's exact brand colors: RGB **20,47,61** (`#142f3d`, 798 opaque pixels), **168,236,226** (`#a8ece2`, 96 opaque pixels), and **241,187,99** (`#f1bb63`, 20 opaque pixels). These match the deployed SVG background, viewfinder stroke and center mark, rather than Chrome's generic fallback icon.
-
-Together, the explicit declaration, autonomous favicon request, successful image load and Chrome's matching selected favicon cache establish actual browser adoption of the intended original site icon.
+The current browser request-log query did not retain a separate autonomous favicon request; no new autonomous-network observation is claimed. The decoded live icon plus matching Chrome-selected favicon cache provide the current acceptance evidence.
 
 ## Production security response headers
 
-Observed on live root HTML, `/concepts` SPA fallback, JS and CSS responses:
+Browser fetch of live `/concepts` returned HTTP 200 with:
 
 ```text
 X-Content-Type-Options: nosniff
@@ -63,14 +86,12 @@ X-Frame-Options: DENY
 Permissions-Policy: camera=(), microphone=(), geolocation=()
 ```
 
-HTML, JS and CSS loaded successfully with correct content types. No camera, microphone, geolocation or inference backend is needed by the mock site. These headers are useful baseline controls, not a security certification.
+No camera, microphone, geolocation or inference backend is needed. These are baseline headers, not a security certification.
 
 ## GitHub release and CI policy
 
-The source repository is public. `.github/workflows/site.yml` builds on push and pull requests. Deployment from CI is opt-in through manual workflow dispatch on `main` and requires separately configured `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets. Local Wrangler OAuth is not installed in CI. No CI deployment token was created for this release.
-
-Initial application source commit: `018571c5e7d7e1f2f4974c86cf740d2e7c6ae20f`. Actual GitHub Actions run [40478400896](https://github.com/tw365-org/supervision-taiwan-lab/actions/runs/40478400896) **passed**: `npm ci`, `npm run build`, and the `site-dist` artifact upload succeeded; the deployment step was correctly skipped on push. Build job duration was 33 seconds. Nonblocking runner annotations reported the Node 20 runtime deprecation of the v4 GitHub actions (automatically run on Node 24) and the ubuntu-latest image migration. These are CI runner/action-runtime notices, not browser errors or a failed application build.
+The source repository remains public. `.github/workflows/site.yml` builds on push and pull requests. Deployment is opt-in through manual workflow dispatch on `main`, requiring separately configured `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets. Local Wrangler OAuth is not installed in CI; no CI token was created for this release. The public GitHub description now uses the new brand; repository and domain names are unchanged.
 
 ## Boundaries / 驗收邊界
 
-以上是 mock 網站的實際發布與瀏覽器驗收，不是模型準確率、真實鏡頭、全瀏覽器／實體手機矩陣、無障礙認證、法律合規或市場成效驗證。所有視覺物件、數字與告警仍為合成示意資料；網站沒有執行 Supervision Python，也沒有現場影像上傳或推論。No field/model/customer validation is implied by a successful website release.
+以上為 mock 網站發布及互動驗收，不是模型準確率、真實鏡頭、全瀏覽器／實體手機矩陣、無障礙認證、法律合規或市場成效驗證。所有物件、數字及告警皆為前端合成資料；沒有執行 Supervision Python、上傳影像或推論。20 項皆保留待驗證假設及逐項限制。上游 Supervision 名稱、固定研究基準、MIT 授權與 Roboflow 原始著作權維持原樣；原始計畫不因品牌更名而改寫。No field/model/customer validation is implied by a successful website release.

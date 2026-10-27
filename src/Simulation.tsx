@@ -1,4 +1,6 @@
-import type { Copy, Demo } from "./locales/types";
+import type { Copy } from "./locales/types";
+import type { LabDemo } from "./lab";
+import DomainScene from "./DomainScene";
 import type { Actor, Scene } from "./model";
 function Person({ actor }: { actor: Actor }) {
   const forklift = actor.kind === "forklift";
@@ -55,20 +57,23 @@ export default function Simulation({
   scene,
   copy,
   zones,
+  labels,
+  title,
 }: {
-  demo: Demo;
+  demo: LabDemo;
   scene: Scene;
   copy: Copy;
   zones: boolean;
+  labels: string[];
+  title: string;
 }) {
-  const labels = copy.lab.scene[demo];
   const zoneClass = `analysis-zone ${scene.alert ? "zone-alert" : ""} ${!zones ? "zone-off" : ""}`;
   return (
     <svg
       className="simulation"
       viewBox="0 0 640 470"
       role="img"
-      aria-label={`${copy.lab.tabs[demo]} — ${copy.lab.viewport}`}
+      aria-label={`${title} — ${copy.lab.viewport}`}
     >
       <defs>
         <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
@@ -158,6 +163,15 @@ export default function Simulation({
                       : "bay zone-off"
                   }
                 />
+                {scene.unknown.includes(i) && (
+                  <rect
+                    x={x}
+                    y={y}
+                    width="70"
+                    height="105"
+                    fill="url(#hatch)"
+                  />
+                )}
                 <text x={x + 9} y={y + 18} className="bay-label">
                   {String(i + 1).padStart(2, "0")}
                 </text>
@@ -188,6 +202,15 @@ export default function Simulation({
                     <path d="M-14-21h28" stroke="#143e4b" strokeWidth="4" />
                     <ellipse cy="-24" rx="5" ry="7" fill="#b8d6d7" />
                   </g>
+                ) : scene.unknown.includes(i) ? (
+                  <text
+                    x={x + 35}
+                    y={y + 65}
+                    textAnchor="middle"
+                    className="scene-label"
+                  >
+                    ?
+                  </text>
                 ) : (
                   <path
                     d={`M${x + 26} ${y + 60}l7 7 14-18`}
@@ -271,6 +294,13 @@ export default function Simulation({
           </text>
         </g>
       )}
+      <DomainScene
+        demo={demo}
+        scene={scene}
+        labels={labels}
+        zoneClass={zoneClass}
+        zones={zones}
+      />
       {scene.actors.map((actor) => (
         <Person key={actor.id} actor={actor} />
       ))}

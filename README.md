@@ -1,8 +1,8 @@
-# Supervision Taiwan Lab · 台灣視覺應用實驗室
+# AI Simulation Vision Lab · AI模擬視覺實驗室
 
 繁體中文 / [English](#english)
 
-以台灣場域為出發點的互動式電腦視覺概念網站：從研究計畫中的 20 個應用假設，探索機車停車、排隊與人車交會等決策情境。這是**獨立製作的 mock 概念展示**，不是已上線的監控產品，也不是 Roboflow 官方網站。
+以台灣場域為出發點的互動式電腦視覺概念網站：在第 01 節逐一操作研究計畫中的 **20 個應用假設**，探索機車停車、排隊、人車交會、製造、農業與水域等決策情境。這是**獨立製作的 mock 概念展示**，不是已上線的監控產品，也不是 Roboflow 官方網站。
 
 - 正式展示 / Live demo：[supervision-taiwan-lab.tw365ai.workers.dev](https://supervision-taiwan-lab.tw365ai.workers.dev)
 - 正式發布驗收 / Production verification：[`docs/release-verification.md`](docs/release-verification.md)
@@ -72,9 +72,9 @@ npx --yes wrangler@4.153.0 deploy
 
 GitHub Actions 預設**只建置，不自動部署**。若要在 GitHub 部署，先在 repository secrets 設定 `CLOUDFLARE_API_TOKEN`（限定目標帳號的 Workers 部署權限）及 `CLOUDFLARE_ACCOUNT_ID`，再從主分支手動執行 workflow 並勾選 `deploy`。本機登入憑證不會自動提供給 GitHub Actions。
 
-發布驗收須包含：兩種語言、情境選擇／播放互動、鍵盤操作、手機版面、直接進入網址及重新整理、靜態安全標頭，以及在**真實瀏覽器**確認 HTML 的 `rel="icon"` 指向可成功載入的影像，瀏覽器實際採用該 favicon。僅成功 build 或 HTTP 回應不代表完成這些驗收。
+發布驗收須包含：第 01 節全部 20 個應用 × 3 個場景狀態 × 雙語 × 桌面／手機版面、場景專屬規則與讀值、播放／步進／重設／拖曳步數、鍵盤操作、完整介紹跳轉、品牌與標題、直接進入網址及重新整理、靜態安全標頭，以及在**真實瀏覽器**確認 HTML 的 `rel="icon"` 指向可成功載入的影像，瀏覽器實際採用該 favicon。僅成功 build 或 HTTP 回應不代表完成這些驗收。
 
-2026-10-27 已以 Wrangler 成功發布至上述正式網址，並以真實 Chromium 完成雙語保存、三場景、手機無水平溢出、直接導航／刷新、播放與鍵盤操作、安全標頭及 favicon 實際採用檢查；詳細觀測值見發布驗收紀錄。這是網站驗收，不是模型或場域成效驗證。
+2026-10-27 已以 Wrangler 發布全部 20 個互動應用及新品牌至上述正式網址。獨立正式站 Chromium 驗收涵蓋 240 個場景狀態組合（20 × 3 × 2 語系 × 2 版面），均無水平溢出；另完成 80 組鍵盤規則上下限與停用讀值、40 組完整介紹焦點跳轉、時間事件、播放、語言保存、刷新、安全標頭及 favicon 瀏覽器實際採用檢查。三項推薦仍為入口捷徑，不限制其他 17 項的互動。詳細逐項語意及觀測值見發布驗收紀錄。這是網站驗收，不是模型或場域成效驗證。
 
 ## 授權與來源
 
@@ -84,7 +84,7 @@ GitHub Actions 預設**只建置，不自動部署**。若要在 GitHub 部署�
 
 ## English
 
-An independent, bilingual interactive concept lab for Taiwan computer-vision applications, based on 20 research hypotheses. **This is a mock website, not a production surveillance system or an official Roboflow product.**
+AI Simulation Vision Lab is an independent, bilingual interactive concept lab for Taiwan computer-vision applications. Section 01 provides interactive synthetic demonstrations of all **20 research hypotheses**, not just descriptions or three recommended scenes. **This is a mock website, not a production surveillance system or an official Roboflow product.**
 
 **Live demo:** https://supervision-taiwan-lab.tw365ai.workers.dev · [Production verification evidence](docs/release-verification.md). Published and exercised in real Chromium on 2026-10-27; this verifies the website, not model accuracy or field outcomes.
 
@@ -101,6 +101,8 @@ A real implementation requires licensed footage, an external detector/segmenter,
 Use Node.js 22 LTS. Run `npm ci`, then `npm run dev`. Build with `npm run build` and preview with `npm run preview`; output is `dist/`.
 
 The app uses React, TypeScript and Vite with no custom server or database. Traditional Chinese (`src/locales/zh-TW.ts`) is the default, and English lives in `src/locales/en.ts`. The selected locale persists under `vision-lab-locale` in browser local storage. Keep both dictionaries synchronized, reuse stable scenario identifiers and retain technical API names and source links. Locale switching is in-app, not a claim of separately indexed localized URLs.
+
+In section 01, the complete selector exposes all 20 applications; the three recommended tabs are shortcuts, not the full demo inventory. Each application has three domain-specific states, a rule/target control, primary and secondary readings, playback/manual step/reset/frame scrub, an analysis switch, and a link to its matching full introduction. Temporal scenes replay synthetic tracking or dwell histories; static inspection scenes deliberately retain the same sample rather than invent changing counts. The production browser release covered 240 state/locale/viewport combinations without horizontal overflow; see the release evidence for per-case semantics and limits.
 
 ### Deploy and contribute
 

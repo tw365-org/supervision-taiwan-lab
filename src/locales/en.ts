@@ -1,9 +1,9 @@
 import type { Copy } from "./types";
 export const en: Copy = {
-  title: "Taiwan Vision Lab | Supervision concepts",
+  title: "AI Simulation Vision Lab | Supervision concepts",
   description:
     "Explore 20 computer vision concepts for Taiwan with simulated data, grounded capabilities and explicit limits.",
-  brand: "Taiwan Vision Lab",
+  brand: "AI Simulation Vision Lab",
   nav: [
     "Interactive lab",
     "20 applications",
@@ -31,7 +31,7 @@ export const en: Copy = {
   lab: {
     heading: "Put the rules into the scene.",
     intro:
-      "Choose a use case, change the scenario, then adjust a rule. The scene and readings share reproducible mock data; none are field measurements.",
+      "All 20 applications are interactive. Start with the three recommended cases or choose any from the full menu. Change scene states and rules; every reading is deterministic mock data, not a field measurement.",
     tabs: {
       queue: "Queue alerts",
       parking: "Scooter parking",
@@ -39,60 +39,18 @@ export const en: Copy = {
     },
     recommended: "Validation priority",
     simulated: "Simulated data",
-    viewport: "Top-down concept schematic, not a real camera image",
+    viewport:
+      "Concept schematic and synthetic observations, not a camera image",
     frame: "Simulation step",
     play: "Play simulation",
     pause: "Pause simulation",
     reset: "Reset",
     scenario: "Scenario",
-    scenarios: ["Everyday", "Busy", "Edge case"],
-    threshold: "Queue count threshold",
-    thresholdUnit: "people or more to alert",
-    zones: "Enable zone rules",
     normal: "No alert condition",
     alert: "Advisory alert triggered",
-    disabled: "Zone rules disabled",
-    current: {
-      queue: "People in the queue zone",
-      parking: "Visible free bays",
-      forklift: "Objects in shared zone",
-    },
-    secondary: {
-      queue: "Alert threshold",
-      parking: "Illustrated bays",
-      forklift: "Shared-zone rule",
-    },
-    status: {
-      queue: "Queue count meets threshold",
-      parking: "No visible bays available",
-      forklift: "Person and forklift share the zone",
-    },
-    note: {
-      queue:
-        "Count threshold only, not an estimated wait. Pickup customers outside the queue are excluded. Leaving the queue does not prove payment or order completion.",
-      parking:
-        "Each bay uses a preset state, not image recognition. The camera must resolve individual bays. Occlusion, angled parking and rain covers need field validation. No plate recognition.",
-      forklift:
-        "Only 2D zone co-presence, never calibrated distance or collision prediction. No vehicle control; not a substitute for safety interlocks or occupational safety measures.",
-    },
-    legend: [
-      "Person / scooter",
-      "Forklift",
-      "Analysis zone",
-      "Outside analysis zone",
-    ],
-    scene: {
-      queue: ["Service counter", "Queue zone", "Pickup area", "Entrance"],
-      parking: ["Scooter parking", "Access aisle", "Exit", "Bay"],
-      forklift: ["Storage", "Shared zone", "Pedestrian route", "Vehicle route"],
-    },
+    disabled: "Analysis and rules disabled",
     controls: "Simulation controls",
     details: "Read the full application introduction",
-    count: "people",
-    available: "bays",
-    coPresence: "person / vehicle",
-    event: "Co-presence",
-    noEvent: "No co-presence",
   },
   catalog: {
     heading: "20 local questions. 20 places to start.",

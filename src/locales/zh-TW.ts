@@ -1,9 +1,9 @@
 import type { Copy } from "./types";
 export const zhTW: Copy = {
-  title: "台灣視覺實驗室｜Supervision 應用概念",
+  title: "AI模擬視覺實驗室｜Supervision 應用概念",
   description:
     "用模擬資料探索 20 個台灣電腦視覺應用，理解 Supervision 的能力與落地邊界。",
-  brand: "台灣視覺實驗室",
+  brand: "AI模擬視覺實驗室",
   nav: ["互動實驗", "20 個應用", "技術與落地", "來源"],
   navigationLabel: "主要導覽",
   categoriesLabel: "應用分類",
@@ -26,59 +26,21 @@ export const zhTW: Copy = {
   lab: {
     heading: "把規則，放進現場。",
     intro:
-      "選擇場景、切換模擬狀態，再調整規則。畫面與讀值來自同一組可重現資料，不代表現場量測。",
+      "20個應用都能操作：先選推薦三項，或從完整選單選場景。改變狀態與規則，觀察確定性模擬；所有讀值都不是現場量測。",
     tabs: { queue: "排隊提醒", parking: "機車空位", forklift: "人車交會區" },
     recommended: "推薦驗證",
     simulated: "模擬資料",
-    viewport: "俯視概念示意，非實際攝影機影像",
+    viewport: "概念示意與合成觀測，非實際攝影機影像",
     frame: "模擬步數",
     play: "播放模擬",
     pause: "暫停模擬",
     reset: "重設",
     scenario: "場景狀態",
-    scenarios: ["日常狀態", "繁忙狀態", "邊界情境"],
-    threshold: "隊列提醒門檻",
-    thresholdUnit: "人以上提醒",
-    zones: "啟用區域規則",
     normal: "未達提醒條件",
     alert: "觸發輔助提醒",
-    disabled: "區域規則已關閉",
-    current: {
-      queue: "區域內排隊人數",
-      parking: "可見空位",
-      forklift: "同區物件",
-    },
-    secondary: {
-      queue: "提醒門檻",
-      parking: "總示意車格",
-      forklift: "交會區規則",
-    },
-    status: {
-      queue: "隊列人數達到門檻",
-      parking: "目前沒有可見空位",
-      forklift: "人與堆高機同時位於區域",
-    },
-    note: {
-      queue:
-        "只示範區域人數門檻，不估算等待時間。區域外取餐者不計入；離開隊列不代表付款或出餐完成。",
-      parking:
-        "每格占用來自預設狀態，非影像辨識結果。鏡頭需能區分車格；遮擋、斜停、雨衣都需另驗證，不辨識車牌。",
-      forklift:
-        "僅示範 2D 區域共現，絕非距離量測或碰撞預測。不介入車輛控制、不取代安全聯鎖與職安措施。",
-    },
-    legend: ["人物／機車", "堆高機", "分析區域", "非分析區域"],
-    scene: {
-      queue: ["服務櫃台", "排隊區", "取餐區", "入口"],
-      parking: ["機車停車場", "通行走道", "出口", "車格"],
-      forklift: ["儲位", "交會區", "行人動線", "車輛動線"],
-    },
+    disabled: "分析與規則已關閉",
     controls: "模擬控制",
     details: "閱讀此應用的完整介紹",
-    count: "人",
-    available: "格",
-    coPresence: "人／車",
-    event: "同區共現",
-    noEvent: "未共現",
   },
   catalog: {
     heading: "20 個在地問題，20 個驗證起點。",

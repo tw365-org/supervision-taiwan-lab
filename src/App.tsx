@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import Simulation from "./Simulation";
 import { getScene } from "./model";
+import { definitions, labCopy, sceneIds } from "./lab";
+import type { LabDemo } from "./lab";
 import { zhTW } from "./locales/zh-TW";
 import { en } from "./locales/en";
 import type { Category, Demo, Locale } from "./locales/types";
 import { SITE_REPOSITORY, UPSTREAM_REPOSITORY } from "./config";
 const demos: Demo[] = ["queue", "parking", "forklift"];
-const caseIds: Record<Demo, number> = { queue: 7, parking: 1, forklift: 12 };
 function initialLocale(): Locale {
   try {
     return localStorage.getItem("vision-lab-locale") === "en" ? "en" : "zh-TW";
@@ -30,7 +31,7 @@ function BrandIcon() {
 export default function App() {
   const [locale, setLocale] = useState<Locale>(initialLocale);
   const copy = locale === "zh-TW" ? zhTW : en;
-  const [demo, setDemo] = useState<Demo>("queue");
+  const [demo, setDemo] = useState<LabDemo>("queue");
   const [scenario, setScenario] = useState(0);
   const [frame, setFrame] = useState(0);
   const [playing, setPlaying] = useState(
@@ -67,6 +68,14 @@ export default function App() {
     return () => media.removeEventListener("change", onChange);
   }, []);
   const scene = getScene(demo, scenario, frame, threshold, zones);
+  const lab = labCopy(demo, locale);
+  const selectedCase = copy.cases.find((item) => item.id === lab.id)!;
+  const chooseDemo = (value: LabDemo) => {
+    setDemo(value);
+    setScenario(0);
+    setFrame(0);
+    setThreshold(definitions[value].initial);
+  };
   const cases = copy.cases.filter(
     (item) =>
       (category === "all" || item.category === category) &&
@@ -82,7 +91,7 @@ export default function App() {
         .includes(query.toLocaleLowerCase(locale).trim()),
   );
   const jumpToCase = () => {
-    const id = caseIds[demo];
+    const id = lab.id;
     setCategory("all");
     setQuery("");
     setOpened((items) => (items.includes(id) ? items : [...items, id]));
@@ -102,7 +111,11 @@ export default function App() {
           <BrandIcon />
           <span>
             {copy.brand}
-            <small>Vision Lab / Taiwan</small>
+            <small>
+              {locale === "zh-TW"
+                ? "AI Simulation Vision Lab"
+                : "Taiwan / interactive concepts"}
+            </small>
           </span>
         </a>
         <nav aria-label={copy.navigationLabel}>
@@ -199,7 +212,11 @@ export default function App() {
                   id={`tab-${value}`}
                   aria-selected={demo === value}
                   aria-controls="demo-panel"
-                  tabIndex={demo === value ? 0 : -1}
+                  tabIndex={
+                    demo === value || (!demos.includes(demo as Demo) && i === 0)
+                      ? 0
+                      : -1
+                  }
                   onKeyDown={(e) => {
                     if (
                       ["ArrowRight", "ArrowLeft", "Home", "End"].includes(e.key)
@@ -211,14 +228,12 @@ export default function App() {
                           : e.key === "End"
                             ? 2
                             : (i + (e.key === "ArrowRight" ? 1 : 2)) % 3;
-                      setDemo(demos[index]);
-                      setFrame(0);
+                      chooseDemo(demos[index]);
                       document.getElementById(`tab-${demos[index]}`)?.focus();
                     }
                   }}
                   onClick={() => {
-                    setDemo(value);
-                    setFrame(0);
+                    chooseDemo(value);
                   }}
                 >
                   <span className="tab-order">{i + 1}</span>
@@ -227,10 +242,28 @@ export default function App() {
                 </button>
               ))}
             </div>
+            <div className="all-scenes-control">
+              <label htmlFor="lab-demo">{lab.all}</label>
+              <select
+                id="lab-demo"
+                value={demo}
+                onChange={(e) => chooseDemo(e.target.value as LabDemo)}
+              >
+                {sceneIds.map((id) => (
+                  <option key={id} value={id}>
+                    #{String(definitions[id].id).padStart(2, "0")} ·{" "}
+                    {
+                      copy.cases.find((item) => item.id === definitions[id].id)!
+                        .title
+                    }
+                  </option>
+                ))}
+              </select>
+            </div>
             <div
               id="demo-panel"
               role="tabpanel"
-              aria-labelledby={`tab-${demo}`}
+              aria-label={selectedCase.title}
               className="demo-panel"
             >
               <div className="viewport">
@@ -248,6 +281,8 @@ export default function App() {
                   scene={scene}
                   copy={copy}
                   zones={zones}
+                  labels={lab.labels}
+                  title={selectedCase.title}
                 />
                 <div className="viewport-bottom">
                   <span>{copy.lab.viewport}</span>
@@ -261,9 +296,17 @@ export default function App() {
                     </button>
                     <button
                       onClick={() => {
+                        setPlaying(false);
+                        setFrame((f) => (f + 1) % 12);
+                      }}
+                    >
+                      {lab.step}
+                    </button>
+                    <button
+                      onClick={() => {
                         setFrame(0);
                         setScenario(0);
-                        setThreshold(5);
+                        setThreshold(definitions[demo].initial);
                         setZones(true);
                         setPlaying(false);
                       }}
@@ -273,15 +316,58 @@ export default function App() {
                     </button>
                   </div>
                 </div>
+                <div className="frame-control">
+                  <label htmlFor="frame">
+                    {lab.timeline} <output>{frame} / 11</output>
+                  </label>
+                  <input
+                    id="frame"
+                    type="range"
+                    min="0"
+                    max="11"
+                    value={frame}
+                    onChange={(e) => {
+                      setPlaying(false);
+                      setFrame(Number(e.target.value));
+                    }}
+                  />
+                </div>
+                {(demo === "gate" || demo === "bus") && (
+                  <div
+                    className="crossing-history"
+                    aria-label={
+                      locale === "zh-TW"
+                        ? "選區越線事件紀錄"
+                        : "Selected-zone crossing history"
+                    }
+                  >
+                    <span>
+                      {locale === "zh-TW"
+                        ? "越線紀錄（步數）"
+                        : "Crossing history (step)"}
+                    </span>
+                    {scene.crossings
+                      .filter((event) => event.zone === threshold)
+                      .map((event) => (
+                        <span key={`${event.id}-${event.step}`}>
+                          {event.id} {event.direction === "in" ? "↑" : "↓"} @
+                          {event.step}
+                        </span>
+                      ))}
+                    {!scene.crossings.some(
+                      (event) => event.zone === threshold,
+                    ) && <span>0</span>}
+                  </div>
+                )}
               </div>
               <aside className="inspector" aria-label={copy.lab.controls}>
                 <div className="inspector-title">
                   <span className="focus-corner" aria-hidden="true">
                     ⌖
                   </span>
-                  <h3>{copy.lab.tabs[demo]}</h3>
+                  <h3>{selectedCase.title}</h3>
                   <span className="inspector-id">
-                    #{String(caseIds[demo]).padStart(2, "0")}
+                    #{String(lab.id).padStart(2, "0")}
                   </span>
                 </div>
                 <label className="field-label" htmlFor="scenario">
@@ -295,59 +381,45 @@ export default function App() {
                     setFrame(0);
                   }}
                 >
-                  {copy.lab.scenarios.map((label, i) => (
+                  {lab.scenarios.map((label, i) => (
                     <option key={i} value={i}>
                       {label}
                     </option>
                   ))}
                 </select>
                 <div className="reading">
-                  <span>{copy.lab.current[demo]}</span>
+                  <span>{lab.metric}</span>
                   <strong>
-                    {zones ? scene.primary : "—"}
-                    <small>
-                      {demo === "queue"
-                        ? copy.lab.count
-                        : demo === "parking"
-                          ? copy.lab.available
-                          : copy.lab.coPresence}
-                    </small>
+                    {zones && !scene.unavailable ? scene.primary : "—"}
+                    <small>{lab.unit}</small>
                   </strong>
                 </div>
-                {demo === "queue" ? (
-                  <div className="threshold-control">
-                    <label htmlFor="threshold">
-                      {copy.lab.threshold}
-                      <output htmlFor="threshold">{threshold}</output>
-                    </label>
-                    <input
-                      id="threshold"
-                      type="range"
-                      min="2"
-                      max="8"
-                      value={threshold}
-                      onChange={(e) => setThreshold(Number(e.target.value))}
-                    />
-                    <p>
-                      {threshold} {copy.lab.thresholdUnit}
-                    </p>
-                  </div>
-                ) : (
-                  <div className="secondary-reading">
-                    <span>{copy.lab.secondary[demo]}</span>
-                    <strong>
-                      {demo === "parking"
-                        ? "12"
-                        : !zones
-                          ? "—"
-                          : scene.primary === 2
-                            ? copy.lab.event
-                            : copy.lab.noEvent}
-                    </strong>
-                  </div>
-                )}
+                <div className="secondary-reading">
+                  <span>{lab.secondary}</span>
+                  <strong>
+                    {zones && !scene.unavailable ? scene.secondary : "—"}{" "}
+                    <small>{lab.secondaryUnit}</small>
+                  </strong>
+                </div>
+                <div className="threshold-control">
+                  <label htmlFor="threshold">
+                    {lab.control}
+                    <output htmlFor="threshold">{threshold}</output>
+                  </label>
+                  <input
+                    id="threshold"
+                    type="range"
+                    min={lab.min}
+                    max={lab.max}
+                    value={threshold}
+                    onChange={(e) => setThreshold(Number(e.target.value))}
+                  />
+                  <p>
+                    {threshold} {lab.controlUnit}
+                  </p>
+                </div>
                 <label className="zone-switch">
-                  <span>{copy.lab.zones}</span>
+                  <span>{lab.enabled}</span>
                   <input
                     type="checkbox"
                     role="switch"
@@ -366,16 +438,19 @@ export default function App() {
                     <strong>
                       {!zones
                         ? copy.lab.disabled
-                        : scene.alert
-                          ? copy.lab.alert
-                          : copy.lab.normal}
+                        : scene.unavailable
+                          ? lab.unavailable
+                          : scene.alert
+                            ? copy.lab.alert
+                            : copy.lab.normal}
                     </strong>
-                    {zones && scene.alert && (
-                      <small>{copy.lab.status[demo]}</small>
-                    )}
+                    {zones && scene.alert && <small>{lab.rule}</small>}
                   </div>
                 </div>
-                <p className="simulation-note">{copy.lab.note[demo]}</p>
+                <p className="simulation-note">{lab.rule}</p>
+                <p className="simulation-note safety-limit">
+                  {selectedCase.limitation}
+                </p>
                 <button className="details-link" onClick={jumpToCase}>
                   {copy.lab.details}
                   <span aria-hidden="true"> ↗</span>
@@ -383,7 +458,7 @@ export default function App() {
               </aside>
             </div>
             <div className="legend">
-              {copy.lab.legend.slice(0, 3).map((label, i) => (
+              {lab.legend.map((label, i) => (
                 <span key={i}>
                   <i className={`legend-symbol symbol-${i}`} />
                   {label}
