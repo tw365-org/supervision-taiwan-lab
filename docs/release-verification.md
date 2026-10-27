@@ -92,6 +92,8 @@ No camera, microphone, geolocation or inference backend is needed. These are bas
 
 The source repository remains public. `.github/workflows/site.yml` builds on push and pull requests. Deployment is opt-in through manual workflow dispatch on `main`, requiring separately configured `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets. Local Wrangler OAuth is not installed in CI; no CI token was created for this release. The public GitHub description now uses the new brand; repository and domain names are unchanged.
 
+Release source commit **`86e2e1258c11501155e892c7283dd290b03ee07d`** was pushed to public `main`. GitHub Actions run [40483330991](https://github.com/tw365-org/supervision-taiwan-lab/actions/runs/40483330991) **passed**, independently observed with `gh run watch --exit-status`: `npm ci`, `npm run build` and `site-dist` upload succeeded; the build job took 12 seconds and deployment was correctly skipped on push. Nonblocking annotations noted v4 actions' Node 20 runtime migration to Node 24 and the ubuntu-latest image migration. They were runner notices, not application failures.
+
 ## Boundaries / 驗收邊界
 
 以上為 mock 網站發布及互動驗收，不是模型準確率、真實鏡頭、全瀏覽器／實體手機矩陣、無障礙認證、法律合規或市場成效驗證。所有物件、數字及告警皆為前端合成資料；沒有執行 Supervision Python、上傳影像或推論。20 項皆保留待驗證假設及逐項限制。上游 Supervision 名稱、固定研究基準、MIT 授權與 Roboflow 原始著作權維持原樣；原始計畫不因品牌更名而改寫。No field/model/customer validation is implied by a successful website release.
