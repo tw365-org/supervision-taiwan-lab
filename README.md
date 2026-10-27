@@ -6,6 +6,7 @@
 
 - 正式展示 / Live demo：[supervision-taiwan-lab.tw365ai.workers.dev](https://supervision-taiwan-lab.tw365ai.workers.dev)
 - 正式發布驗收 / Production verification：[`docs/release-verification.md`](docs/release-verification.md)
+- 工作日誌 / Work log：[`docs/work-log.md`](docs/work-log.md)
 - 網站原始碼：[tw365-org/supervision-taiwan-lab](https://github.com/tw365-org/supervision-taiwan-lab)
 - 原始 Python 專案：[Roboflow / Supervision](https://github.com/roboflow/supervision)
 - 固定研究基準：[Supervision 0.31.2](https://github.com/roboflow/supervision/tree/0.31.2)，MIT、Python >= 3.10
