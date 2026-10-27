@@ -3,7 +3,7 @@
 ## Release identity
 
 - Date: 2026-10-27.
-- Brand: **AI模擬視覺實驗室 / AI Simulation Vision Lab**.
+- Brand: **AI 模擬視覺實驗室 / AI Simulation Vision Lab**.
 - Public site: https://supervision-taiwan-lab.tw365ai.workers.dev
 - Public source: https://github.com/tw365-org/supervision-taiwan-lab (public, `main`).
 - Cloudflare Worker: `supervision-taiwan-lab`, Workers Static Assets, `dist/`, SPA fallback, no custom API/backend.
@@ -32,7 +32,7 @@ Real Chromium **156.0.8078.48** on Windows, against public HTTPS. Desktop **1440
 - **80 control checks:** all 20 × two locales × two viewports. Keyboard Home/End reached each rule control's actual min/max. Turning analysis off showed `—` as the primary numeric reading for every case; it was re-enabled before observing scene readings.
 - **40 detail-navigation checks:** all 20 × two locales. Clicking the introduction link opened the matching `case-N` and moved focus to its summary (waited for focus, not just the click).
 - Accessible native selector, labeled scenario/rule/frame controls, SVG image labels, tabs and status were present in the real browser accessibility observation. This is not an accessibility certification.
-- No stale `台灣視覺實驗室` or `Taiwan Vision Lab` in rendered body/title across the 80 case/locale/viewport observations. Exact titles: `AI模擬視覺實驗室｜Supervision 應用概念` and `AI Simulation Vision Lab | Supervision concepts`.
+- No stale `台灣視覺實驗室` or `Taiwan Vision Lab` in rendered body/title across the 80 case/locale/viewport observations. Titles recorded during that previous release used the then-current Chinese spacing; the current exact Chinese title is `AI 模擬視覺實驗室｜Supervision 應用概念`, and the unchanged English title is `AI Simulation Vision Lab | Supervision concepts`. See the spacing-only release evidence below for the current browser check.
 - English persisted across direct `/concepts#lab` navigation and reload; 20 options remained. Chinese persisted after switching back and reloading (`html.lang` and `vision-lab-locale` both `zh-TW`). `/concepts` is a deliberate SPA fallback probe, not another authored page.
 - Playback advanced to step 2 and paused. Reset returned step 0; manual advance returned step 1. Keyboard frame End reached step 11 for temporal checks.
 - Browser console entries and uncaught page errors were empty after the exercised interactions and reloads.
@@ -93,6 +93,17 @@ No camera, microphone, geolocation or inference backend is needed. These are bas
 The source repository remains public. `.github/workflows/site.yml` builds on push and pull requests. Deployment is opt-in through manual workflow dispatch on `main`, requiring separately configured `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets. Local Wrangler OAuth is not installed in CI; no CI token was created for this release. The public GitHub description now uses the new brand; repository and domain names are unchanged.
 
 Release source commit **`86e2e1258c11501155e892c7283dd290b03ee07d`** was pushed to public `main`. GitHub Actions run [40483330991](https://github.com/tw365-org/supervision-taiwan-lab/actions/runs/40483330991) **passed**, independently observed with `gh run watch --exit-status`: `npm ci`, `npm run build` and `site-dist` upload succeeded; the build job took 12 seconds and deployment was correctly skipped on push. Nonblocking annotations noted v4 actions' Node 20 runtime migration to Node 24 and the ubuntu-latest image migration. They were runner notices, not application failures.
+
+## Spacing-only brand correction — 2026-10-27
+
+This follow-on release changes only the current original-site Chinese brand to **AI 模擬視覺實驗室**. The exact document title is **AI 模擬視覺實驗室｜Supervision 應用概念**. English copy, repository/domain identifiers, upstream attribution, original research, scene implementations, CSS and the existing favicon are unchanged. `NOTICE` contains only the unchanged English site name, so required no edit. The public GitHub repository description received the same Chinese spacing correction.
+
+- `npm run build` and `npm run typecheck` both exited 0. Vite emitted `index-CcNiZhqm.js` and the unchanged `index-DgOp8AJX.css`.
+- `npx --yes wrangler@4.153.0 deploy` exited 0 using cached local OAuth. It uploaded only `index.html` and `assets/index-CcNiZhqm.js`; the remaining assets were already uploaded. Deployed Worker version: **`5ac1f221-11f6-4ae9-b2ac-b011011f4845`** at https://supervision-taiwan-lab.tw365ai.workers.dev.
+- Real Chromium checked the deployed HTTPS page at **390 × 844** CSS pixels. The exact Chinese title and visible header used the corrected spacing. A screenshot was captured and visually inspected: no header overlap. The brand-link rectangle was x=20, y=21, width=137.78125, height=29.984375; the language button began at x=319.5625. Document scroll width equaled the 390px viewport.
+- Rendered body plus title contained no unspaced Chinese brand in either locale. English retained `AI Simulation Vision Lab | Supervision concepts`; switching back to Chinese and reloading retained the exact corrected Chinese title. The application selector still exposed 20 options; no scene redesign or full scene-matrix rerun was part of this mechanical release. The browser reported no uncaught page errors.
+- The explicit existing `<link rel="icon" type="image/svg+xml" href="/favicon.svg">` remains. Browser fetch returned **200**, `image/svg+xml`; image decoding succeeded at **150 × 150**. Chromium's `chrome://favicon2/` cache for the live site returned a complete **32 × 32** image, whose screenshot visibly showed the intended preserved teal lab icon, confirming browser adoption rather than just an HTML declaration.
+- The prior release's broader matrix and GitHub Actions evidence above are historical; only the checks listed here were re-exercised for this spacing correction. Commit/push and the new push-triggered CI result are reported with the delivery.
 
 ## Boundaries / 驗收邊界
 

@@ -1,9 +1,9 @@
 import type { Copy } from "./types";
 export const zhTW: Copy = {
-  title: "AI模擬視覺實驗室｜Supervision 應用概念",
+  title: "AI 模擬視覺實驗室｜Supervision 應用概念",
   description:
     "用模擬資料探索 20 個台灣電腦視覺應用，理解 Supervision 的能力與落地邊界。",
-  brand: "AI模擬視覺實驗室",
+  brand: "AI 模擬視覺實驗室",
   nav: ["互動實驗", "20 個應用", "技術與落地", "來源"],
   navigationLabel: "主要導覽",
   categoriesLabel: "應用分類",

@@ -1,4 +1,4 @@
-# AI Simulation Vision Lab · AI模擬視覺實驗室
+# AI Simulation Vision Lab · AI 模擬視覺實驗室
 
 繁體中文 / [English](#english)
 
