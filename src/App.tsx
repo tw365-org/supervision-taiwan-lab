@@ -124,6 +124,14 @@ export default function App() {
               {label}
             </a>
           ))}
+          <a
+            className="gratitude-link"
+            href="https://roboflow.com/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {copy.gratitude}
+          </a>
         </nav>
         <div className="header-actions">
           <a

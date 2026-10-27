@@ -1241,10 +1241,16 @@ html[lang="en"] .inspector {
     padding-right: 35px;
   }
   .site-header {
-    padding: 0 30px;
+    padding: 20px 30px;
     gap: 15px;
+    height: auto;
+    min-height: 91px;
+    flex-wrap: wrap;
   }
   .site-header nav {
+    order: 3;
+    flex-basis: 100%;
+    justify-content: center;
     gap: 15px;
     font-size: 11px;
   }
@@ -1309,9 +1315,9 @@ html[lang="en"] .inspector {
 }
 @media (max-width: 820px) {
   .site-header {
-    height: 78px;
+    min-height: 78px;
   }
-  .site-header nav {
+  .site-header nav a:not(.gratitude-link) {
     display: none;
   }
   .hero {
@@ -1455,8 +1461,7 @@ html[lang="en"] .inspector {
     padding-right: 22px;
   }
   .site-header {
-    padding: 0 20px;
-    height: 73px;
+    padding: 16px 20px;
     gap: 10px;
   }
   .brand {

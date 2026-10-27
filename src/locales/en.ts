@@ -11,6 +11,7 @@ export const en: Copy = {
     "Sources",
   ],
   navigationLabel: "Main navigation",
+  gratitude: "Thanks to the Roboflow team",
   categoriesLabel: "Application categories",
   languageLabel: "切換至繁體中文",
   languageShort: "繁中",

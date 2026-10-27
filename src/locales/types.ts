@@ -17,6 +17,7 @@ export interface Copy {
   brand: string;
   nav: string[];
   navigationLabel: string;
+  gratitude: string;
   categoriesLabel: string;
   languageLabel: string;
   languageShort: string;

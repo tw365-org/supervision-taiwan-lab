@@ -6,6 +6,7 @@ export const zhTW: Copy = {
   brand: "AI 模擬視覺實驗室",
   nav: ["互動實驗", "20 個應用", "技術與落地", "來源"],
   navigationLabel: "主要導覽",
+  gratitude: "特別致謝 Roboflow 團隊",
   categoriesLabel: "應用分類",
   languageLabel: "Switch to English",
   languageShort: "EN",

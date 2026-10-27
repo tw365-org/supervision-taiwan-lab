@@ -4,6 +4,8 @@
 
 品牌為 **AI 模擬視覺實驗室**；英文為 **AI Simulation Vision Lab**，英文文件標題為 `AI Simulation Vision Lab | Supervision concepts`。既有網域、GitHub 與上游來源 URL 不變。原研究 `SUPERVISION_台灣應用_PLAN.md` 的正式標題與來源名稱不改。
 
+頂部導覽在前三個站內連結右側加入「特別致謝 Roboflow 團隊」／「Thanks to the Roboflow team」，連到 `https://roboflow.com/`（新分頁、`rel="noreferrer"`）。使用獨立 `gratitude` 語系欄位，不改 `nav[3]` 的來源標籤。1100px 以下導覽移到頂部第二列；820px 以下隱藏原有三個導覽項目時，仍保留可見、可鍵盤操作的致謝連結。保留原本來源頁尾與全部場景。
+
 這是獨立的 React + TypeScript + Vite 互動概念網站，不是 Roboflow 官方產品，不執行 Python、Supervision 或模型。研究沿用原計畫的公開來源及 0.31.2 基準，保留技術、授權與未驗證邊界。20 個應用**全部能在第一節操作**，不是僅有介紹。推薦順序仍為 #7 排隊、#1 機車空位、#12 人車交會，之後以完整原生選單呈現其餘應用。
 
 All data is deterministic, synthetic and local. No cameras, uploads, inference services, external data APIs, accuracy claims or field measurements. Potential buyers, recommendations and business models remain hypotheses. Source links and all 20 bilingual field-validation and safety limitations remain visible. System fonts avoid third-party font requests.
